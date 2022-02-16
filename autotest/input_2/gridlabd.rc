@@ -1,0 +1,4 @@
+clock.glm
+weather.glm
+test_R1-12.47-1.glm
+-D minimum_timestep=3600

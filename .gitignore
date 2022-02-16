@@ -1,0 +1,4 @@
+
+.DS_Store
+autotest/output_*/
+autotest-errors.tar.gz
