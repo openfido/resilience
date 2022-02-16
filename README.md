@@ -1,7 +1,7 @@
 OpenFIDO Grid Resilience Anticipation pipeline
 ==============================================
 
-The `tariff_design` pipeline runs GridLAB-D ICA analysis template.
+The `resilience` pipeline runs GridLAB-D resilience analysis template.
 
 PIPELINE
 --------
@@ -13,7 +13,7 @@ Recommended pipeline settings:
 | Pipeline name           | GridLAB-D
 | Description             | Run GridLAB-D
 | DockerHub Repository    | slacgismo/gridlabd:latest
-| Git Clone URL (https)   | https://github.com/openfido/anticipation
+| Git Clone URL (https)   | https://github.com/openfido/resilience
 | Repository Branch       | main
 | Entrypoint Script (.sh) | openfido.sh
 
