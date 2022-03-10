@@ -1,0 +1,7 @@
+{
+  "description" : "Resilience analysis pipeline",
+  "docker" : "slacgismo/gridlabd:latest",
+  "git" : "https://github.com/openfido/resilience.git",
+  "branch" : "main",
+  "script" : "openfido.sh"
+}
