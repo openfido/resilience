@@ -1,4 +1,4 @@
-[![validation](https://github.com/openfido/resilience/actions/workflows/main.yml/badge.svg)](https://github.com/openfido/resilience/actions/workflows/main.yml)
+Pipeline status: [![validation](https://github.com/openfido/resilience/actions/workflows/main.yml/badge.svg)](https://github.com/openfido/resilience/actions/workflows/main.yml)
 
 OpenFIDO Grid Resilience Anticipation pipeline
 ==============================================
