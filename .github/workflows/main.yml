@@ -14,7 +14,8 @@ jobs:
 
   build:
   
-    runs-on: slacgismo/gridlabd:latest
+    runs-on: ubuntu-latest
+    container: slacgismo/gridlabd:latest
     
     steps:
     
