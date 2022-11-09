@@ -1,7 +1,17 @@
 {
-  "description" : "Resilience analysis pipeline",
-  "docker" : "slacgismo/gridlabd:latest",
+  "name" : "GRIP",
+  "description" : "Resilience analysis",
+  "docker" : "slacgismo/gridlabd:develop",
   "git" : "https://github.com/openfido/resilience.git",
   "branch" : "main",
   "script" : "openfido.sh"
-}
+  "gridlabd" : {
+    "ANALYSIS" : {
+      "description" : "Type of analysis to conduct",
+      "choices" : "pole analysis, vegetation analysis, switch reconfiguration"
+      "default" : "pole analysis" 
+      "input_type" : "enum"
+    },
+  },
+} 
+
