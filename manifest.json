@@ -4,7 +4,7 @@
   "docker" : "slacgismo/gridlabd:develop",
   "git" : "https://github.com/openfido/resilience.git",
   "branch" : "main",
-  "script" : "openfido.sh"
+  "script" : "openfido.sh",
   "manual": {
     "gridlabd": "rc",
   },
