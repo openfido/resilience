@@ -6,7 +6,7 @@
   "branch" : "main",
   "script" : "openfido.sh"
   "manual": {
-    "Gridlabd": "rc",
+    "gridlabd": "rc",
   },
   "gridlabd" : {
     "ANALYSIS" : {
