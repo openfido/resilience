@@ -6,13 +6,13 @@
   "branch" : "main",
   "script" : "openfido.sh",
   "manual": {
-    "gridlabd": "rc",
+    "gridlabd": "rc"
   },
   "gridlabd" : {
     "ANALYSIS" : {
       "description" : "Type of analysis to conduct",
-      "choices" : "pole analysis, vegetation analysis, switch reconfiguration"
-      "default" : "pole analysis" 
+      "choices" : "pole analysis, vegetation analysis, switch reconfiguration",
+      "default" : "pole analysis",
       "input_type" : "enum"
     },
   },
