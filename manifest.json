@@ -5,6 +5,9 @@
   "git" : "https://github.com/openfido/resilience.git",
   "branch" : "main",
   "script" : "openfido.sh"
+  "manual": {
+    "config": "csv",
+  },
   "gridlabd" : {
     "ANALYSIS" : {
       "description" : "Type of analysis to conduct",
