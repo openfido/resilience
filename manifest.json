@@ -8,7 +8,7 @@
   "manual": {
     "config": "csv"
   },
-  "gridlabd" : {
+  "config" : {
     "ANALYSIS" : {
       "description" : "Type of analysis to conduct",
       "choices" : "pole analysis, vegetation analysis, switch reconfiguration",
