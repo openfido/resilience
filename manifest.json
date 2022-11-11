@@ -11,8 +11,8 @@
   "config" : {
     "ANALYSIS" : {
       "description" : "Type of analysis to conduct",
-      "choices" : "pole analysis, vegetation analysis, switch reconfiguration",
-      "default" : "pole analysis",
+      "choices" : "pole_analysis, vegetation_analysis, switch_reconfiguration",
+      "default" : "pole_analysis",
       "input_type" : "enum"
     }, 
     "POLE_DATA" : {

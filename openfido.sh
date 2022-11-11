@@ -50,7 +50,7 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 # process config file
 if [ ! -f "$OPENFIDO_INPUT/config.csv" ]; then
     ANALYSIS=$(grep ^ANALYSIS, config.csv | cut -f2- -d, | tr ',' ' ')
-    POLE_DATA=$(grep ^TABLES, config.csv | cut -f2- -d, | tr ',' ' ')
+    POLE_DATA=$(grep ^POLE_DATA, config.csv | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
@@ -61,6 +61,7 @@ else
 fi
 
 if [ "$ANALYSIS"="vegetation analysis"]; then 
+    echo "Running vegetation analysis, only."
     gridlabd geodata merge -D elevation /data/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
     python3 add_info.py # this needs to get integrated into the gridlabd source code 
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type=“TACSR/AC 610mm^2” >$OPENFIDO_OUTPUT/path_result.csv #note, the cable type is fixed, this should be an input 
