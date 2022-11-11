@@ -71,11 +71,6 @@ fi
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
 
 echo '*** OUTPUTS ***'
-echo "Moving results into $OPENFIDO_OUTPUT..."
-for FILE in $(find . -name '*.'csv -print); do
-        echo "  $FILE ($(wc -c $FILE | awk '{print $1}') bytes)"
-        mv $FILE "$OPENFIDO_OUTPUT"
-    done
 ls -l $OPENFIDO_OUTPUT
 
 echo '*** RUN COMPLETE ***'
