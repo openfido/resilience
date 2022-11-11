@@ -14,6 +14,18 @@
       "choices" : "pole analysis, vegetation analysis, switch reconfiguration",
       "default" : "pole analysis",
       "input_type" : "enum"
+    }, 
+    "POLE_DATA" : {
+      "prompt" : "Include pole data (csv)",
+      "description" : "Pole data, csv",
+      "default" : "",
+      "input_type" : "upload", 
+    },
+    "VEGE_DATA" : {
+      "prompt" : "Include vegetation data (csv)",
+      "description" : "Vegetation data, csv",
+      "default" : "",
+      "input_type" : "upload", 
     }
   }
 } 
