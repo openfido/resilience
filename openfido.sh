@@ -48,7 +48,7 @@ cp -R $OPENFIDO_INPUT/* .
 
 
 # process config file
-if [ -f "config.csv" ]; then
+if [ ! -f "$OPENFIDO_INPUT/config.csv" ]; then
     ANALYSIS=$(grep ^ANALYSIS, config.csv | cut -f2- -d, | tr ',' ' ')
     POLE_DATA=$(grep ^TABLES, config.csv | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
