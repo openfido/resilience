@@ -19,13 +19,13 @@
       "prompt" : "Include pole data (csv)",
       "description" : "Pole data, csv",
       "default" : "",
-      "input_type" : "upload", 
+      "input_type" : "upload"
     },
     "VEGE_DATA" : {
       "prompt" : "Include vegetation data (csv)",
       "description" : "Vegetation data, csv",
       "default" : "",
-      "input_type" : "upload", 
+      "input_type" : "upload"
     }
   }
 } 
