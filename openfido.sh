@@ -45,7 +45,16 @@ fi
 
 cd $OPENFIDO_OUTPUT
 cp -R $OPENFIDO_INPUT/* .
-( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
+
+if [ "$ANALYSIS"="vegetation analysis"]; then 
+    gridlabd geodata merge -D elevation /data/path_example.csv -r 30 | gridlabd geodata merge -D vegetation >/data/path_vege.csv
+    python3 add_info.py # this needs to get integrated into the gridlabd source code 
+    gridlabd geodata merge -D powerline /data/path_vege.csv --cable_type=“TACSR/AC 610mm^2” >/data/path_result.csv #note, the cable type is fixed, this should be an input 
+# elif ["$ANALYSIS"="pole analysis"]; then 
+#     echo "PENDING POLE ANALYSIS"
+fi 
+
+# ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
 
 echo '*** OUTPUTS ***'
 ls -l $OPENFIDO_OUTPUT
