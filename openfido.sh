@@ -44,7 +44,7 @@ else
 fi
 
 cd $OPENFIDO_OUTPUT
-cp -R $OPENFIDO_INPUT/* .
+cp -R $OPENFIDO_INPUT/* . #WHY?
 
 
 # process config file
@@ -61,9 +61,9 @@ else
 fi
 
 if [ "$ANALYSIS"="vegetation analysis"]; then 
-    gridlabd geodata merge -D elevation /data/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >/data/path_vege.csv
+    gridlabd geodata merge -D elevation /data/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
     python3 add_info.py # this needs to get integrated into the gridlabd source code 
-    gridlabd geodata merge -D powerline /data/path_vege.csv --cable_type=“TACSR/AC 610mm^2” >/data/path_result.csv #note, the cable type is fixed, this should be an input 
+    gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type=“TACSR/AC 610mm^2” >$OPENFIDO_OUTPUT/path_result.csv #note, the cable type is fixed, this should be an input 
 # elif ["$ANALYSIS"="pole analysis"]; then 
 #     echo "PENDING POLE ANALYSIS"
 fi 
