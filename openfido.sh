@@ -49,7 +49,7 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 
 # process config file
 if [ ! -f "$OPENFIDO_INPUT/config.csv" ]; then
-    cat 
+    cat "$OPENFIDO_INPUT/config.csv"
     ANALYSIS=$(grep ^ANALYSIS, "$OPENFIDO_INPUT/config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "TEST ${ANALYSIS}"
     POLE_DATA=$(grep ^POLE_DATA, "$OPENFIDO_INPUT/config.csv" | cut -f2- -d, | tr ',' ' ')
