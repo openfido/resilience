@@ -48,11 +48,11 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 
 
 # process config file
-if [ ! -f "$OPENFIDO_INPUT/config.csv" ]; then
-    cat "$OPENFIDO_INPUT/config.csv"
-    ANALYSIS=$(grep ^ANALYSIS, "$OPENFIDO_INPUT/config.csv" | cut -f2- -d, | tr ',' ' ')
+if [ ! -f "config.csv" ]; then
+    cat "config.csv"
+    ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "TEST ${ANALYSIS}"
-    POLE_DATA=$(grep ^POLE_DATA, "$OPENFIDO_INPUT/config.csv" | cut -f2- -d, | tr ',' ' ')
+    POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
