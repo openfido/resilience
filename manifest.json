@@ -20,6 +20,12 @@
       "description" : "Pole data, csv",
       "default" : "",
       "input_type" : "upload"
-    }
+    },
+    "PREPROCESSING_FILE" : {
+      "prompt" : "Pre-processing file (py)",
+      "description" : "File to pre-process the data for vegetation, py",
+      "default" : "",
+      "input_type" : "upload"
+    },
   }
 } 
