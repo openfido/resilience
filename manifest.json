@@ -26,6 +26,6 @@
       "description" : "File to pre-process the data for vegetation, py",
       "default" : "",
       "input_type" : "upload"
-    },
+    }
   }
 } 
