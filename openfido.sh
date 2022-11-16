@@ -51,6 +51,7 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 if [ -e "config.csv" ]; then
     ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
     POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    USECASE=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
@@ -67,6 +68,9 @@ if [ "$ANALYSIS" = "vegetation_analysis" ]; then
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
 elif ["$ANALYSIS"="pole analysis"]; then 
     echo "PENDING POLE ANALYSIS"
+    gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$POLE_DATA -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
+    # gridlabd -D csv_load_options="-f table -t object -M powerflow -o DEMO_test.glm" DEMO_test.csv
+    # gridlabd pole_analysis DEMO_test_network.glm --analysis=critical_speed --poles_selected=POLENAME
 fi 
 
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
