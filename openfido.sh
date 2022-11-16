@@ -51,8 +51,8 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 if [ -e "config.csv" ]; then
     ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
     POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    USECASE=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    POLE_NAME=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    POLE_NAME=$(grep ^POLE_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
