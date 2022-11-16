@@ -16,8 +16,8 @@
       "input_type": "enum"
     },
     "POLE_DATA": {
-      "prompt": "Include pole data (csv)",
-      "description": "Pole data, csv",
+      "prompt": "Include pole data (csv/xls)",
+      "description": "Pole data, csv/xls",
       "default": "",
       "input_type": "upload"
     },
