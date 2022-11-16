@@ -74,7 +74,7 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     echo "Converting CSV to GLM"
     gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$CSV_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
     echo "Pole analysis on GLM file"
-    gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE 
+    gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results.csv
     # --poles_selected=POLENAME
 fi 
 
