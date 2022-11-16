@@ -67,10 +67,11 @@ if [ "$ANALYSIS" = "vegetation_analysis" ]; then
     python3 $OPENFIDO_INPUT/add_info.py # this needs to get integrated into the gridlabd source code
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
 elif [ "$ANALYSIS" = "pole_analysis" ]; then 
+    CSV_NAME="testcsv"
     echo "Converting SPIDAcalc excel report to CSV"
-    gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/DEMO_test.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
-    # echo "Converting CSV to GLM"
-    # gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/DEMO_test.glm" DEMO_test.csv
+    gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
+    echo "Converting CSV to GLM"
+    gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$CSV_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
     # gridlabd pole_analysis DEMO_test_network.glm --analysis=critical_speed 
     # --poles_selected=POLENAME
 fi 
