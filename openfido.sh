@@ -52,6 +52,7 @@ if [ -e "config.csv" ]; then
     ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
     POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
     USECASE=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    POLE_NAME=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
@@ -72,7 +73,8 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
     echo "Converting CSV to GLM"
     gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$CSV_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
-    # gridlabd pole_analysis DEMO_test_network.glm --analysis=critical_speed 
+    echo "Pole analysis on GLM file"
+    gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE 
     # --poles_selected=POLENAME
 fi 
 
