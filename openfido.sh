@@ -71,11 +71,14 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     CSV_NAME="poles_w_equip_and_network"
     GLM_NAME="network"
     USECASES=("loading_scenario" "critical_speed" "worst_angle")
-
+    RESULT_NAME="results"
 
     if [[ -n "$POLE_NAME" ]]; then
         POLE_OPTION="--poles_selected=pole_$POLE_NAME"
+
     fi
+
+
 
     echo "Converting SPIDAcalc excel report to CSV"
     gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
@@ -84,11 +87,11 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     echo "Pole analysis on GLM file"
     if [[ "$USECASE" = "all" ]]; then
         for option in "${USECASES[@]}"; do
-            gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --output=$OPENFIDO_OUTPUT/results_$option.csv $POLE_OPTION
+            gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME\_$option.csv $POLE_OPTION
             # --poles_selected=POLENAME
         done
     else
-        gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results_$USECASE.csv $POLE_OPTION
+        gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME\_$USECASE.csv $POLE_OPTION
         # --poles_selected=POLENAME
     fi
 fi 
