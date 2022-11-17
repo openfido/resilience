@@ -32,6 +32,12 @@
       "choices": "loading_scenario, critical_speed, worst_angle, all",
       "default": "loading_scenario",
       "input_type": "enum"
+    },
+    "POLE_NAME": {
+      "description": "Name of single pole to be analyzed",
+      "prompt": "Pole Name",
+      "default": "",
+      "input_type": "str"
     }
   }
 }
