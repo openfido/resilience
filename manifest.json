@@ -22,9 +22,10 @@
       "input_type": "upload"
     },
     "USECASE": {
+      "prompt": "USECASE (pole analysis)",
       "description": "Type of analysis to conduct",
-      "choices": "loading_scenario, critical_speed, worst_angle, all, -default-",
-      "default": "-default-",
+      "choices": "loading_scenario, critical_speed, worst_angle, all, --",
+      "default": "--",
       "input_type": "enum"
     },
     "POLE_NAME": {
