@@ -76,6 +76,13 @@ if [ "$ANALYSIS" = "vegetation_analysis" ]; then
     python3 /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
     gridlabd /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
 elif [ "$ANALYSIS" = "pole_analysis" ]; then 
+
+    if [ "$USECASE" = "-default-" ]; then
+        echo "ERROR [openfido.sh]: Please set a usecase for pole analysis" > /dev/stderr
+        error
+    fi
+    
+    
     CSV_NAME="poles_w_equip_and_network"
     GLM_NAME="network"
     USECASES=("loading_scenario" "critical_speed" "worst_angle")
