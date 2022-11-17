@@ -21,12 +21,6 @@
       "default": "",
       "input_type": "upload"
     },
-    "PREPROCESSING_FILE": {
-      "prompt": "Pre-processing file (py)",
-      "description": "File to pre-process the data for vegetation, py",
-      "default": "",
-      "input_type": "upload"
-    },
     "USECASE": {
       "description": "Type of analysis to conduct",
       "choices": "loading_scenario, critical_speed, worst_angle, all",
