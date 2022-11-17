@@ -83,6 +83,7 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     else
         gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results-$USECASE.csv
         # --poles_selected=POLENAME
+    fi
 fi 
 
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
