@@ -68,14 +68,21 @@ if [ "$ANALYSIS" = "vegetation_analysis" ]; then
     python3 $OPENFIDO_INPUT/add_info.py # this needs to get integrated into the gridlabd source code
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
 elif [ "$ANALYSIS" = "pole_analysis" ]; then 
-    CSV_NAME="testcsv"
+    CSV_NAME="poles_w_equip_and_network"
+    GLM_NAME="network"
+    USECASES=("loading_scenario" "critical_speed" "worst_angle")
     echo "Converting SPIDAcalc excel report to CSV"
     gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
     echo "Converting CSV to GLM"
     gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$CSV_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
     echo "Pole analysis on GLM file"
-    gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results.csv
-    # --poles_selected=POLENAME
+    if [[ "$USECASE" = "all" ]]
+        for option in "${USECASES[@]}"; do
+            gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$option --output=$OPENFIDO_OUTPUT/results-$option.csv
+            # --poles_selected=POLENAME
+    else
+        gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results-$USECASE.csv
+        # --poles_selected=POLENAME
 fi 
 
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
