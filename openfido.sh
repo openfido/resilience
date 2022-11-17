@@ -74,7 +74,7 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
 
 
     if [[ -n "$POLE_NAME" ]]; then
-        POLE_OPTION="--poles_selected=$POLE_NAME"
+        POLE_OPTION="--poles_selected=pole_$POLE_NAME"
     fi
 
     echo "Converting SPIDAcalc excel report to CSV"
