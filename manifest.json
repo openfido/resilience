@@ -35,7 +35,7 @@
     },
     "POLE_NAME": {
       "description": "Name of single pole to be analyzed",
-      "prompt": "Pole Name",
+      "prompt": "Pole Name (optional)",
       "default": "",
       "input_type": "str"
     }
