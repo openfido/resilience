@@ -80,6 +80,7 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
         for option in "${USECASES[@]}"; do
             gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$option --output=$OPENFIDO_OUTPUT/results-$option.csv
             # --poles_selected=POLENAME
+        done
     else
         gridlabd pole_analysis $OPENFIDO_OUTPUT/$CSV_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/results-$USECASE.csv
         # --poles_selected=POLENAME
