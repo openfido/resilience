@@ -16,8 +16,7 @@ error()
 # configure template 
 gridlabd template config set GITUSER slacgismo
 gridlabd template config set GITREPO gridlabd-template
-gridlabd template config set GITBRANCH develop-add-vege
-gridlabd template config set DATADIR /model/us/ca/slac
+gridlabd template config set GITBRANCH develop-add-veg
 gridlabd template get $TEMPLATE
 
 trap on_error 1 2 3 4 6 7 8 11 13 14 15
