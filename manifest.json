@@ -20,6 +20,6 @@
       "description" : "Pole data, csv",
       "default" : "",
       "input_type" : "upload"
-    },
+    }
   }
 } 
