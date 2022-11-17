@@ -24,7 +24,7 @@
     "USECASE": {
       "description": "Type of analysis to conduct",
       "choices": "loading_scenario, critical_speed, worst_angle, all",
-      "default": "loading_scenario",
+      "default": "",
       "input_type": "enum"
     },
     "POLE_NAME": {
