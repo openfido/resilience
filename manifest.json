@@ -1,25 +1,37 @@
 {
-  "name" : "GRIP",
-  "description" : "Resilience analysis",
-  "docker" : "slacgismo/gridlabd:develop",
-  "git" : "https://github.com/openfido/resilience.git",
-  "branch" : "main",
-  "script" : "openfido.sh",
+  "name": "GRIP",
+  "description": "Resilience analysis",
+  "docker": "slacgismo/gridlabd:develop",
+  "git": "https://github.com/openfido/resilience.git",
+  "branch": "main",
+  "script": "openfido.sh",
   "manual": {
     "config": "csv"
   },
-  "config" : {
-    "ANALYSIS" : {
-      "description" : "Type of analysis to conduct",
-      "choices" : "pole_analysis, vegetation_analysis, switch_reconfiguration",
-      "default" : "pole_analysis",
-      "input_type" : "enum"
-    }, 
-    "POLE_DATA" : {
-      "prompt" : "Include pole data (csv)",
-      "description" : "Pole data, csv",
-      "default" : "",
-      "input_type" : "upload"
+  "config": {
+    "ANALYSIS": {
+      "description": "Type of analysis to conduct",
+      "choices": "pole_analysis, vegetation_analysis, switch_reconfiguration",
+      "default": "pole_analysis",
+      "input_type": "enum"
+    },
+    "POLE_DATA": {
+      "prompt": "Include pole data (csv/xls)",
+      "description": "Pole data, csv/xls",
+      "default": "",
+      "input_type": "upload"
+    },
+    "USECASE": {
+      "description": "Type of analysis to conduct",
+      "choices": "loading_scenario, critical_speed, worst_angle, all",
+      "default": "loading_scenario",
+      "input_type": "enum"
+    },
+    "POLE_NAME": {
+      "description": "Name of single pole to be analyzed",
+      "prompt": "Pole Name (optional)",
+      "default": "",
+      "input_type": "str"
     }
   }
-} 
+}
