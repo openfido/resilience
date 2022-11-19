@@ -21,8 +21,9 @@
       "default": "",
       "input_type": "upload"
     },
+    "Pole Analysis options": { "input_type": "title" },
     "USECASE": {
-      "prompt": "USECASE (pole analysis)",
+      "prompt": "USECASE",
       "description": "Type of analysis to conduct",
       "choices": "loading_scenario, critical_speed, worst_angle, all, --",
       "default": "--",
@@ -32,6 +33,36 @@
       "description": "Name of single pole to be analyzed",
       "prompt": "Pole Name (optional)",
       "default": "",
+      "input_type": "str"
+    },
+    "WIND_SPEED": {
+      "description": "Wind speed to be used during analysis",
+      "prompt": "Wind Speed (optional) (default 8.8233 m/s)",
+      "default": "8.8233",
+      "input_type": "str"
+    },
+    "WIND_SPEED_INC": {
+      "description": "Wind speed increment to be used during analysis",
+      "prompt": "Wind Direction Increment (optional) (default 5.0 m/s)",
+      "default": "5.0",
+      "input_type": "str"
+    },
+    "WIND_DIR": {
+      "description": "Direction of wind to be used during analysis",
+      "prompt": "Wind Direction (optional) (default 0.0 deg)",
+      "default": "0.0",
+      "input_type": "str"
+    },
+    "WIND_DIR_INC": {
+      "description": "Wind direction increment to be used during analysis",
+      "prompt": "Wind Direction Increment (optional) (default 10.0 deg)",
+      "default": "10.0",
+      "input_type": "str"
+    },
+    "POLE_DIV": {
+      "description": "Number of divisions from bottom to top of pole to be used during analysis",
+      "prompt": "Number of division (optional) (default 100 data points from bottom to top of pole)",
+      "default": "100.0",
       "input_type": "str"
     }
   }

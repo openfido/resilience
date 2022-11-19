@@ -59,6 +59,11 @@ if [ -e "config.csv" ]; then
     POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
     USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     POLE_NAME=$(grep ^POLE_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    WIND_DIR=$(grep ^WIND_DIR, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    POLE_DIV=$(grep ^POLE_DIV, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
@@ -82,7 +87,6 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
         error
     fi
     
-    
     CSV_NAME="poles_w_equip_and_network"
     GLM_NAME="network"
     USECASES=("loading_scenario" "critical_speed" "worst_angle")
@@ -101,10 +105,10 @@ elif [ "$ANALYSIS" = "pole_analysis" ]; then
     if [[ "$USECASE" = "all" ]]; then
         for option in "${USECASES[@]}"; do
         echo "Running $option usecase"
-            gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$option.csv $POLE_OPTION
+            gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV--output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$option.csv $POLE_OPTION
         done
     else
-        gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$USECASE.csv $POLE_OPTION
+        gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$USECASE.csv $POLE_OPTION
     fi
 fi 
 
