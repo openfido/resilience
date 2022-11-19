@@ -31,37 +31,37 @@
     },
     "POLE_NAME": {
       "description": "Name of single pole to be analyzed",
-      "prompt": "Pole Name (optional)",
+      "prompt": "(optional) Pole Name",
       "default": "",
       "input_type": "str"
     },
     "WIND_SPEED": {
       "description": "Wind speed to be used during analysis",
-      "prompt": "Wind Speed (optional) (default 8.8233 m/s)",
+      "prompt": "(optional) Wind Speed (default 8.8233 m/s)",
       "default": "8.8233",
       "input_type": "str"
     },
     "WIND_SPEED_INC": {
       "description": "Wind speed increment to be used during analysis",
-      "prompt": "Wind Direction Increment (optional) (default 5.0 m/s)",
+      "prompt": "(optional) Wind Speed Increment (default 5.0 m/s)",
       "default": "5.0",
       "input_type": "str"
     },
     "WIND_DIR": {
       "description": "Direction of wind to be used during analysis",
-      "prompt": "Wind Direction (optional) (default 0.0 deg)",
+      "prompt": "(optional) Wind Direction (default 0.0 deg)",
       "default": "0.0",
       "input_type": "str"
     },
     "WIND_DIR_INC": {
       "description": "Wind direction increment to be used during analysis",
-      "prompt": "Wind Direction Increment (optional) (default 10.0 deg)",
+      "prompt": "(optional) Wind Direction Increment (default 10.0 deg)",
       "default": "10.0",
       "input_type": "str"
     },
     "POLE_DIV": {
       "description": "Number of divisions from bottom to top of pole to be used during analysis",
-      "prompt": "Number of division (optional) (default 100 data points from bottom to top of pole)",
+      "prompt": "(optional) Number of division (default 100 divisions)",
       "default": "100.0",
       "input_type": "str"
     }
