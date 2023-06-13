@@ -3,7 +3,7 @@ Pipeline status: [![validation](https://github.com/openfido/resilience/actions/w
 OpenFIDO Grid Resilience Anticipation pipeline
 ==============================================
 
-The `resilience` pipeline runs GridLAB-D resilience analysis template.
+The `resilience` pipeline runs GridLAB-D pole failure and vegetation contactact analysis template.
 
 PIPELINE
 --------
