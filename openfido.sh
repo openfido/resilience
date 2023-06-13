@@ -69,10 +69,9 @@ if [ -e "config.csv" ]; then
     echo "  POLE_DATA = ${POLE_DATA:-}"
 else
     echo "No 'config.csv', using default settings:"
-    echo "  ANALYSIS = "pole_analysis""
-    echo "  POLE_DATA = "
+    echo "ANALYSIS = "pole_analysis""
+    echo "POLE_DATA = "
 fi
-
 if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
     echo "Running vegetation analysis, only."
     gridlabd geodata merge -D elevation $OPENFIDO_INPUT/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
