@@ -72,8 +72,10 @@ else
     echo "ANALYSIS = 'pole_analysis'"
     echo "POLE_DATA = "
     echo "USECASE = "
+    echo "POLE_NAME = "
     ANALYSIS="pole_analysis"
     USECASE="all"
+    POLE_NAME=""
 fi
 if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
     echo "Running vegetation analysis, only."
