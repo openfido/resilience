@@ -69,8 +69,9 @@ if [ -e "config.csv" ]; then
     echo "  POLE_DATA = ${POLE_DATA:-}"
 else
     echo "No 'config.csv', using default settings:"
-    echo "ANALYSIS = "pole_analysis""
+    echo "ANALYSIS = 'pole_analysis'"
     echo "POLE_DATA = "
+    ANALYSIS="pole_analysis"
 fi
 if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
     echo "Running vegetation analysis, only."
