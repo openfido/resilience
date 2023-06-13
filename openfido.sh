@@ -71,7 +71,9 @@ else
     echo "No 'config.csv', using default settings:"
     echo "ANALYSIS = 'pole_analysis'"
     echo "POLE_DATA = "
+    echo "USECASE = "
     ANALYSIS="pole_analysis"
+    USECASE="all"
 fi
 if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
     echo "Running vegetation analysis, only."
