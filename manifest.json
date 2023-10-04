@@ -1,7 +1,7 @@
 {
   "name": "GRIP",
   "description": "Resilience analysis",
-  "docker": "slacgismo/gridlabd:develop",
+  "docker": "lfenergy/arras:latest",
   "git": "https://github.com/openfido/resilience.git",
   "branch": "main",
   "script": "openfido.sh",
