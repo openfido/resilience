@@ -63,21 +63,12 @@ if [ -e "config.csv" ]; then
     STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     MODEL_NAME=$(grep ^MODEL_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    USACASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_DIR=$(grep ^WIND_DIR, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # POLE_DIV=$(grep ^POLE_DIV, "config.csv" | cut -f2- -d, | tr ',' ' ')
-
-    # export MODEL_NAME="CARDINAL"
-    # export INPUT_POLE_FILE="./input/CARDINAL_Polar - Design CalcDesign DSO.xlsx"
-    # export INPUT_VEG_FILE="./input/cardinal_veg_input.csv"
-    # export INPUT_EQUIPMENT_FILE="./input/CARDINAL_PolarDesign Attachment and Equipment_Asset Details from SPIDA and SAP.xlsx"
-    # export ANALYSIS="POLE_INCLUDE_NETWORK" # POLE_BULK | POLE_INCLUDE_NETWORK | POLE_INCLUDE_VEGETATION
-    # export OUTPUT_FOLDER_NAME="./output"
-    # export STARTTIME="2020-01-01T00:00:00"
-    # export STOPTIME="2020-01-02T00:00:00"
-    # export TIMEZONE="PST+8PDT"
     echo "Config settings:"
     echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
     echo "  POLE_DATA = ${POLE_DATA:-}"
@@ -95,7 +86,7 @@ if [ $USECASE = "BULK" ]; then
     # Convert XLSX to CSV + model wrapper 
     gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
     gridlabd convert -i $OPENFIDO_OUTPUT/$MODEL_NAME.csv -o $OPENFIDO_OUTPUT/$MODEL_NAME.glm -f csv-table -t glm-object module=powerflow 
-    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
+    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
 fi
 
 
