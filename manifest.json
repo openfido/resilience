@@ -36,8 +36,8 @@
       "input_type": "str"
     },
     "TIMEZONE": {
-      "description": "Wind speed increment to be used during analysis",
-      "prompt": "(optional) Wind Speed Increment (default 5.0 m/s)",
+      "description": "Timezone of the simulation",
+      "prompt": "Timezone",
       "default": "PST+8PDT",
       "input_type": "str"
     }
