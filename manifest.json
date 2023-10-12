@@ -40,6 +40,12 @@
       "prompt": "Timezone",
       "default": "PST+8PDT",
       "input_type": "str"
+    },
+    "WIND_SPEED": {
+      "description": "Simulation Wind Speed for all the poles",
+      "prompt": "Wind Speed File",
+      "default": "",
+      "input_type": "upload"
     }
   }
 }
