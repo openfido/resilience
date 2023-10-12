@@ -73,18 +73,18 @@ if [ -e "config.csv" ]; then
     echo "  POLE_DATA = ${INPUT_POLE_FILE:-}"
 else
     echo "No 'config.csv', using default settings:"
-    echo "ANALYSIS = 'pole_analysis'"
-    echo "POLE_DATA = "
-    ANALYSIS="pole_analysis"
-    USECASE="all"
-    POLE_NAME=""
+    echo "USECASE = 'BULK'"
+    USECASE="BULK"
 fi
 
 if [ $USECASE = "BULK" ]; then
     echo "Running bulk pole analysis."
     # Convert XLSX to CSV + model wrapper 
+    echo "converting XLSX to CSV"
     gridlabd convert -i "poles:$INPUT_POLE_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    echo "converting CSV to GLM"
     gridlabd convert -i $OPENFIDO_OUTPUT/$MODEL_NAME.csv -o $OPENFIDO_OUTPUT/$MODEL_NAME.glm -f csv-table -t glm-object module=powerflow 
+    echo "Running the pole analysis"
     gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
 fi
 
