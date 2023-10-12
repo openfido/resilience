@@ -43,7 +43,7 @@
     },
     "WIND_SPEED": {
       "description": "Simulation Wind Speed for all the poles",
-      "prompt": "Wind Speed File",
+      "prompt": "Wind Speed File (csv)",
       "default": "",
       "input_type": "upload"
     }
