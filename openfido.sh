@@ -70,8 +70,7 @@ if [ -e "config.csv" ]; then
     # WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # POLE_DIV=$(grep ^POLE_DIV, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
-    echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
-    echo "  POLE_DATA = ${POLE_DATA:-}"
+    echo "  POLE_DATA = ${INPUT_POLE_FILE:-}"
 else
     echo "No 'config.csv', using default settings:"
     echo "ANALYSIS = 'pole_analysis'"

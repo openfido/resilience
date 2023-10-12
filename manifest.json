@@ -10,8 +10,8 @@
   },
   "config": {
     "INPUT_POLE_FILE": {
-      "prompt": "Include pole data (csv/xls)",
-      "description": "Pole data, csv/xls",
+      "prompt": "Include pole data (csv/xlxs)",
+      "description": "Pole data, csv/xlxs",
       "default": "",
       "input_type": "upload"
     },
