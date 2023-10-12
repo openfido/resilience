@@ -1,76 +1,30 @@
 {
-  "name" : "Tariff Design",
-  "description" : "Tariff design analysis pipeline",
-  "docker" : "slacgismo/gridlabd:develop",
-  "git" : "https://github.com/openfido/tariff_design.git",
+  "description" : "Weather data download",
+  "docker" : "lfenergy/arras:latest",
+  "git" : "https://github.com/openfido/weather.git",
   "branch" : "main",
   "script" : "openfido.sh",
-  "manual": {
-    "config": "csv"
+  "manual" : {
+    "config" : "csv"
   },
-  "config": {
-    "WEATHER_STATION": {
-      "input_type": "str required",
-      "description": "Specifies the weather station for the tariff simulation environment.",
-      "default": "CA-San_Jose_Intl_Ap.tmy3",
-      "prompt": "Weather Station"
+  "config" : {
+    "LATITUDE" : {
+      "description" : "Latitude of weather station",
+      "prompt" : "Latitude",
+      "input_type" : "str",
+      "default" : "37.5"
     },
-    "STARTTIME":{
-      "input_type": "str required",
-      "description": "Specifies the starting time for the tariff simulation. Recommended to use ISO8601 format.",
-      "default": "2023-01-01 00:00:00",
-      "prompt": "Start Time"
+    "LONGITUDE" : {
+      "description" : "Longitude of weather station",
+      "prompt" : "Longitude",
+      "input_type" : "str",
+      "default" : "-122.3"
     },
-    "STOPTIME":{
-      "input_type": "str required",
-      "description": "Specifies the ending time for the tariff simulation. Recommended to use ISO8601 format.",
-      "default": "2023-03-01 00:00:00",
-      "prompt": "Stop Time"
-    },
-    "TIMEZONE":{
-      "input_type": "str required",
-      "description": "Specifies time zone of STARTTIME and STOPTIME. Recommended to use ISO8601 format.",
-      "default": "PST+8PDT",
-      "prompt": "Timezone"
-    },
-    "MODEL":{
-     "prompt": "Include model file (glm)",
-      "description": "Feeder model in GLM format. Use CYME2GLM converter to obtain GLM file, if needed.",
-      "default": "",
-      "input_type": "upload"
-    },
-    "OUTPUT":{
-      "input_type": "str",
-      "description": "Specifies name of output file to store results of tariff simulation.",
-      "default": "output.csv",
-      "prompt": "Output File"
-    },
-    "TARIFF_UTILITY":{
-      "input_type": "enum",
-      "description": "Specifies utility company name.",
-      "default": "Pacific Gas & Electric Co",
-      "choices": "Pacific Gas & Electric Co, San Diego Gas & Electric Co, Southern California Edison Co",
-      "prompt": "Utility Company"
-    },
-    "TARIFF_NAME":{
-      "input_type": "enum",
-      "description": "Specifies tariff name.",
-      "default": "E-TOU-C3",
-      "choices": "E-TOU-C3, E-7 Residential Time of Use Baseline, E-1, E-7, E-6, DR, EV-TOU-2, TOU-D-B, TOU-D-TEV",
-      "prompt": "Tariffs"
-    },
-    "TARIFF_REGION":{
-      "input_type": "enum",
-      "description": "Specifies tariff region.",
-      "default": "Region R",
-      "choices": "Region R, REGION P, REGION T, REGION Z, MOUTAIN BASELINE REGION, REGION 15",
-      "prompt": "Region"
-    },
-    "TARIFF_INDEX_SPECIFIC":{
-      "input_type": "int",
-      "description": "Some tariffs need extra information to simulate. When encountered, provide this field with a corresponding value specified by the error message.",
-      "default": "",
-      "prompt": "Tariff Index"
+    "BASENAME" : {
+      "description" : "Name for weather data",
+      "prompt" : "Name",
+      "input_type" : "str",
+      "default" : "forecast"
     }
   }
 }
