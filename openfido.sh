@@ -14,7 +14,7 @@ error()
 }
 
 # configure template 
-gridlabd template config set GITUSER slacgismo
+gridlabd template config set GITUSER arras-energy
 gridlabd template config set GITREPO gridlabd-template
 gridlabd template config set GITBRANCH develop-utilities
 gridlabd template get $TEMPLATE
@@ -83,7 +83,7 @@ fi
 if [ $USECASE = "BULK" ]; then
     echo "Running bulk pole analysis."
     # Convert XLSX to CSV + model wrapper 
-    gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    gridlabd convert -i "poles:$INPUT_POLE_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
     gridlabd convert -i $OPENFIDO_OUTPUT/$MODEL_NAME.csv -o $OPENFIDO_OUTPUT/$MODEL_NAME.glm -f csv-table -t glm-object module=powerflow 
     gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
 fi
