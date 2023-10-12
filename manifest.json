@@ -1,30 +1,45 @@
 {
-  "description" : "Weather data download",
-  "docker" : "lfenergy/arras:latest",
-  "git" : "https://github.com/openfido/weather.git",
-  "branch" : "main",
-  "script" : "openfido.sh",
-  "manual" : {
-    "config" : "csv"
+  "name": "GRIP",
+  "description": "Resilience analysis",
+  "docker": "lfenergy/arras:develop",
+  "git": "https://github.com/openfido/resilience.git",
+  "branch": "main",
+  "script": "openfido.sh",
+  "manual": {
+    "config": "csv"
   },
-  "config" : {
-    "LATITUDE" : {
-      "description" : "Latitude of weather station",
-      "prompt" : "Latitude",
-      "input_type" : "str",
-      "default" : "37.5"
+  "config": {
+    "INPUT_POLE_FILE": {
+      "prompt": "Include pole data (csv/xls)",
+      "description": "Pole data, csv/xls",
+      "default": "",
+      "input_type": "upload"
     },
-    "LONGITUDE" : {
-      "description" : "Longitude of weather station",
-      "prompt" : "Longitude",
-      "input_type" : "str",
-      "default" : "-122.3"
+    "Pole Analysis options": { "input_type": "title" },
+    "USECASE": {
+      "prompt": "USECASE",
+      "description": "Type of analysis to conduct",
+      "choices": "BULK, INCLUDE_NETWORK, INCLUDE_VEGETATION",
+      "default": "BULK",
+      "input_type": "enum"
     },
-    "BASENAME" : {
-      "description" : "Name for weather data",
-      "prompt" : "Name",
-      "input_type" : "str",
-      "default" : "forecast"
+    "STARTTIME": {
+      "description": "Start of the simulation",
+      "prompt": "Start Time",
+      "default": "2020-01-01T00:00:00",
+      "input_type": "str"
+    },
+    "STOPTIME": {
+      "description": "End of the simulation",
+      "prompt": "(optional) Wind Speed (default 8.8233 m/s)",
+      "default": "2020-01-02T00:00:00",
+      "input_type": "str"
+    },
+    "TIMEZONE": {
+      "description": "Timezone of the simulation",
+      "prompt": "Timezone",
+      "default": "PST+8PDT",
+      "input_type": "str"
     }
   }
 }
