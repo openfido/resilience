@@ -24,7 +24,7 @@
     },
     "INPUT_EQUIPMENT_FILE": {
       "prompt": "Include equipment data (csv/xlxs)",
-      "description": "Equipment data, csv/xlxs",
+      "description": "Equipment data, csv/xlxs (optional)",
       "default": "",
       "input_type": "upload"
     },
