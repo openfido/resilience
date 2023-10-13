@@ -85,7 +85,7 @@ if [ $USECASE = "BULK" ]; then
     echo "converting CSV to GLM"
     gridlabd convert -i $OPENFIDO_OUTPUT/$MODEL_NAME.csv -o $OPENFIDO_OUTPUT/$MODEL_NAME.glm -f csv-table -t glm-object module=powerflow 
     echo "Running the pole analysis"
-    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
+    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/shared/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm $OPENFIDO_OUTPUT/$MODEL_NAME.glm 
 fi
 
 
@@ -114,9 +114,9 @@ if [ $USECASE = "INCLUDE_VEGETATION" ]; then
     # gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o ./output/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata 
     # gridlabd python veg_data_preprocess.py
     gridlabd geodata merge -D elevation $INPUT_POLE_FILE -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
-    python3 add_info.py # this needs to get integrated into the gridlabd source code
+    python3 /usr/local/opt/gridlabd/current/shared/gridlabd/template/US/CA/SLAC/anticipation/add_info.py # this needs to get integrated into the gridlabd source code
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
-    python3 folium_data.py
+    python3 /usr/local/opt/gridlabd/current/shared/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
     gridlabd folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
 fi
 
