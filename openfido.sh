@@ -63,7 +63,7 @@ if [ -e "config.csv" ]; then
     STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    MODEL_NAME=$(grep ^MODEL_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # MODEL_NAME=$(grep ^MODEL_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
@@ -82,7 +82,9 @@ if [ $USECASE = "BULK" ]; then
     echo "Running bulk pole analysis."
     # Convert XLSX to CSV + model wrapper 
     echo "converting XLSX to CSV"
-    gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,equipment:$OPENFIDO_INPUT/$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    gridlabd convert -i "poles:$INPUT_POLE_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    # gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+
     echo "converting CSV to GLM"
     gridlabd convert -i $OPENFIDO_OUTPUT/POLES.csv -o $OPENFIDO_OUTPUT/POLES.glm -f csv-table -t glm-object module=powerflow 
     echo "Running the pole analysis"
@@ -93,7 +95,7 @@ fi
 if [ $USECASE = "INCLUDE_NETWORK" ]; then
     echo "Running analysis with network"
     # Convert Model to CSV 
-    gridlabd -C ./input/$MODEL_NAME.glm convert_to_csv.glm   
+    gridlabd -C $OPENFIDO_INPUT/$INPUT_POLE_FILE convert_to_csv.glm   
     # Convert XLSX to CSV + model wrapper 
     gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_network=True #options include network
     # Add loads 
