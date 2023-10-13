@@ -9,6 +9,13 @@
     "config": "csv"
   },
   "config": {
+     "USECASE": {
+      "prompt": "USECASE",
+      "description": "Type of analysis to conduct",
+      "choices": "BULK, INCLUDE_NETWORK, INCLUDE_VEGETATION",
+      "default": "BULK",
+      "input_type": "enum"
+    },
     "INPUT_POLE_FILE": {
       "prompt": "Include pole data (csv/xlxs)",
       "description": "Pole data, csv/xlxs",
@@ -16,13 +23,6 @@
       "input_type": "upload"
     },
     "Pole Analysis options": { "input_type": "title" },
-    "USECASE": {
-      "prompt": "USECASE",
-      "description": "Type of analysis to conduct",
-      "choices": "BULK, INCLUDE_NETWORK, INCLUDE_VEGETATION",
-      "default": "BULK",
-      "input_type": "enum"
-    },
     "STARTTIME": {
       "description": "Start of the simulation",
       "prompt": "Start Time",

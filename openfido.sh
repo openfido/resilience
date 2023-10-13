@@ -118,7 +118,7 @@ if [ $USECASE = "INCLUDE_VEGETATION" ]; then
     gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py # this needs to get integrated into the gridlabd source code
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
     gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
-    gridlabd folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
+    gridlabd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
 fi
 
 
