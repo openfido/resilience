@@ -18,7 +18,8 @@ gridlabd template config set GITUSER arras-energy
 gridlabd template config set GITREPO gridlabd-template
 gridlabd template config set GITBRANCH develop-utilities
 gridlabd template get $TEMPLATE
-gridlabd template list
+
+export GLPATH=/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
 
 trap on_error 1 2 3 4 6 7 8 11 13 14 15
 
