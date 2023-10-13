@@ -19,13 +19,13 @@ gridlabd template config set GITREPO gridlabd-template
 gridlabd template config set GITBRANCH develop-utilities
 gridlabd template get $TEMPLATE
 
-export GLPATH=/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
-
 trap on_error 1 2 3 4 6 7 8 11 13 14 15
 
 set -x # print commands
 set -e # exit on error
 set -u # nounset enabled
+
+export GLPATH=/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
 
 if [ ! -f "/usr/local/bin/gridlabd" ]; then
     echo "ERROR [openfido.sh]: '/usr/local/bin/gridlabd' not found" > /dev/stderr
