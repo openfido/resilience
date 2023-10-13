@@ -82,13 +82,13 @@ if [ $USECASE = "BULK" ]; then
     echo "Running bulk pole analysis."
     # Convert XLSX to CSV + model wrapper 
     echo "converting XLSX to CSV"
-    gridlabd convert -i "poles:$INPUT_POLE_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    gridlabd convert -i "poles:$INPUT_POLE_FILE" -o POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
     # gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
 
     echo "converting CSV to GLM"
-    gridlabd convert -i $OPENFIDO_OUTPUT/POLES.csv -o $OPENFIDO_OUTPUT/POLES.glm -f csv-table -t glm-object module=powerflow 
+    gridlabd convert -i POLES.csv -o POLES.glm -f csv-table -t glm-object module=powerflow 
     echo "Running the pole analysis"
-    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm $OPENFIDO_OUTPUT/POLES.glm 
+    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
 fi
 
 
