@@ -99,6 +99,7 @@ if [ $USECASE = "BULK" ]; then
     cd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
     gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED main_bulk.glm $OPENFIDO_OUTPUT/POLES.glm 
     cd -
+    cp -R /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/pole_status.csv . 
 fi
 
 
