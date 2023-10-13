@@ -31,7 +31,8 @@ gridlabd template config set GITREPO gridlabd-template
 gridlabd template config set GITBRANCH develop-utilities
 gridlabd template get $TEMPLATE
 
-ls -l $GLPATH
+file_list=$(ls -l $GLPATH)
+echo "$file_list"
 
 if [ ! -f "/usr/local/bin/gridlabd" ]; then
     echo "ERROR [openfido.sh]: '/usr/local/bin/gridlabd' not found" > /dev/stderr
