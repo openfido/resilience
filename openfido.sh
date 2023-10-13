@@ -179,7 +179,9 @@ fi
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
 
 echo '*** OUTPUTS ***'
-ls -l $OPENFIDO_OUTPUT
+output_list=$(ls -l $OPENFIDO_OUTPUT)
+echo "$output_list"
+
 
 echo '*** RUN COMPLETE ***'
 echo 'See Data Visualization and Artifacts for results.'
