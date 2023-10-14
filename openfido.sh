@@ -97,7 +97,7 @@ if [ $USECASE = "BULK" ]; then
     gridlabd convert -i POLES.csv -o POLES.glm -f csv-table -t glm-object module=powerflow 
     echo "Running the pole analysis"
     # cd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
-    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
+    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -D WIND_SPEED=$OPENFIDO_INPUT/$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
     template_file_list=$(ls -l)
     echo "$template_file_list"
     # cp -R "/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/pole_status.csv" "$OPENFIDO_OUTPUT/pole_status.csv"
