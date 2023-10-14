@@ -65,15 +65,15 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 # process config file
 if [ -e "config.csv" ]; then
     # ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    INPUT_POLE_FILE=$(grep ^INPUT_POLE_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_POLE_FILE=$(grep ^INPUT_POLE_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # INPUT_VEG_FILE=$(grep ^INPUT_VEG_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    INPUT_EQUIPMENT_FILE=$(grep ^INPUT_EQUIPMENT_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_EQUIPMENT_FILE=$(grep ^INPUT_EQUIPMENT_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # MODEL_NAME=$(grep ^MODEL_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_DIR=$(grep ^WIND_DIR, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
@@ -83,7 +83,7 @@ if [ -e "config.csv" ]; then
 else
     echo "No 'config.csv', using default settings:"
     echo "USECASE = 'BULK'"
-    USECASE="BULK"
+    export USECASE="BULK"
 fi
 
 if [ $USECASE = "BULK" ]; then
