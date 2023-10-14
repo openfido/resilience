@@ -98,7 +98,7 @@ if [ $USECASE = "BULK" ]; then
     echo "Running the pole analysis"
     # cd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
     # gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -t anticipation /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
-    gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
+    gridlabd --verbose --printenv -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
     template_file_list=$(ls -l)
     echo "$template_file_list"
     # cp -R "/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/pole_status.csv" "$OPENFIDO_OUTPUT/pole_status.csv"
