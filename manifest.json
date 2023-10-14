@@ -37,7 +37,7 @@
     },
     "STOPTIME": {
       "description": "End of the simulation",
-      "prompt": "(optional) Wind Speed (default 8.8233 m/s)",
+      "prompt": "Stop Time",
       "default": "2020-01-02T00:00:00",
       "input_type": "str"
     },
