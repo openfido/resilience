@@ -68,6 +68,7 @@ if [ -e "config.csv" ]; then
     export INPUT_POLE_FILE=$(grep ^INPUT_POLE_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     # INPUT_VEG_FILE=$(grep ^INPUT_VEG_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export INPUT_EQUIPMENT_FILE=$(grep ^INPUT_EQUIPMENT_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_MODEL_FILE=$(grep ^INPUT_MODEL_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
@@ -109,9 +110,9 @@ fi
 if [ $USECASE = "INCLUDE_NETWORK" ]; then
     echo "Running analysis with network"
     # Convert Model to CSV 
-    gridlabd -C $OPENFIDO_INPUT/$INPUT_POLE_FILE convert_to_csv.glm   
+    gridlabd -C $OPENFIDO_INPUT/$INPUT_MODEL_FILE convert_to_csv.glm   #need to update this to pandas 
     # Convert XLSX to CSV + model wrapper 
-    gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_network=True #options include network
+    gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE,network:${INPUT_MODEL_FILE}_feeder.csv" -o $OPENFIDO_OUTPUT/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata include_network=True #options include network
     # Add loads 
     # gridlabd create_childs ...
 
