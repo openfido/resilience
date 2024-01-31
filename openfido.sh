@@ -108,7 +108,7 @@ fi
 
 
 if [ $USECASE = "INCLUDE_NETWORK" ]; then
-    echo gridlabd --version=all
+    gridlabd --version=all
     echo "Running analysis with network"
     MODEL="${INPUT_MODEL_FILE%.glm}"
     # Convert Model to CSV 
