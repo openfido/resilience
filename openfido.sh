@@ -121,7 +121,10 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     gridlabd create_childs -i=$OPENFIDO_OUTPUT/${MODEL}.json -o=$OPENFIDO_OUTPUT/${MODEL}_childs.glm -P='class:node,name:^ND_' -C='class:load,nominal_voltage:{nominal_voltage},phases:{phases},constant_power_B:0+0jkVA'
 
     # Add meters 
-    # gridlabd create_meters ...
+    gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${MODEL}.glm" "$OPENFIDO_OUTPUT/${MODEL}_childs.glm" -o "$OPENFIDO_OUTPUT/${MODEL}_childs.json"
+    gridlabd create_meters "$OPENFIDO_OUTPUT/${MODEL}_childs.json" "$OPENFIDO_OUTPUT/${MODEL}_meters.glm"
+    gridlabd $OPENFIDO_INPUT/$MODEL.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm  -o "$OPENFIDO_OUTPUT/${MODEL}_meters.json"
+
 
     # Connect AMI
     # gridlabd convert -i cardinal_AMI.csv -o ami-players.glm -f csv-ami -t glm-player
