@@ -127,10 +127,11 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
 
 
     # Connect AMI
-    # gridlabd convert -i cardinal_AMI.csv -o ami-players.glm -f csv-ami -t glm-player
+    gridlabd convert -i "ami:$OPENFIDO_INPUT/${MODEL}_AMI.csv,network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT/player
 
-    # RUN THE MODEL 
-    # gridlabd 
+    # Connect entire network
+    gridlabd $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+
 fi
 
 
