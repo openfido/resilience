@@ -112,7 +112,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     echo "Running analysis with network"
     MODEL="${INPUT_MODEL_FILE%.glm}"
     # Convert Model to CSV 
-    gridlabd -C -D csv_save_options='-t pandas:name$,phases$ -f class=overhead_line$\|node$' $OPENFIDO_INPUT/$INPUT_MODEL_FILE -o $OPENFIDO_OUTPUT/${MODEL}_feeder.csv
+    gridlabd -C -D csv_save_options='-t pandas:class$,name$,phases$ -f class=overhead_line$\|node$' $OPENFIDO_INPUT/$INPUT_MODEL_FILE -o $OPENFIDO_OUTPUT/${MODEL}_feeder.csv
     # Convert XLSX to CSV + model wrapper 
     echo "Running XLSX converter"
     gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata --debug --verbose
