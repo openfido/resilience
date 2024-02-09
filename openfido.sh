@@ -69,6 +69,7 @@ if [ -e "config.csv" ]; then
     # INPUT_VEG_FILE=$(grep ^INPUT_VEG_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export INPUT_EQUIPMENT_FILE=$(grep ^INPUT_EQUIPMENT_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export INPUT_MODEL_FILE=$(grep ^INPUT_MODEL_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_AMI_FILE=$(grep ^INPUT_AMI_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
     export TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
@@ -127,7 +128,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
 
 
     # Connect AMI
-    gridlabd convert -i "ami:$OPENFIDO_INPUT/${MODEL}_AMI.csv,network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT/player
+    gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT/player
 
     # Connect entire network
     gridlabd $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
