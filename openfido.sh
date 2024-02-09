@@ -114,8 +114,8 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     # Convert Model to CSV 
     gridlabd -C -D csv_save_options='-t pandas:name$,phases$ -f class=overhead_line$\|node$' $OPENFIDO_INPUT/$INPUT_MODEL_FILE -o $OPENFIDO_OUTPUT/${MODEL}_feeder.csv
     # Convert XLSX to CSV + model wrapper 
-    # echo "Running XLSX converter"
-    # gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata
+    echo "Running XLSX converter"
+    gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata
     # Add loads 
     # gridlabd -C -D filesave_options=ALLINITIAL "${INPUT_MODEL_FILE}.glm" -o "${MODEL_NAME}.json"
     # gridlabd create_childs -i=${INPUT_MODEL_FILE}.json -o=${INPUT_MODEL_FILE}_childs.glm -P='class:node,name:^ND_' -C='class:load,nominal_voltage:{nominal_voltage},phases:{phases},constant_power_B:0+0jkVA'
