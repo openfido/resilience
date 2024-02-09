@@ -117,7 +117,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     echo "Running XLSX converter"
     gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata
     # Add loads 
-    gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${INPUT_MODEL_FILE}.glm" -o "$OPENFIDO_OUTPUT/${MODEL}.json"
+    gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${MODEL}.glm" -o "$OPENFIDO_OUTPUT/${MODEL}.json"
     gridlabd create_childs -i=$OPENFIDO_OUTPUT/${MODEL}.json -o=.$OPENFIDO_OUTPUT/${MODEL}_childs.glm -P='class:node,name:^ND_' -C='class:load,nominal_voltage:{nominal_voltage},phases:{phases},constant_power_B:0+0jkVA'
 
     # Add meters 
