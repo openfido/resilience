@@ -117,6 +117,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     # Convert XLSX to CSV + model wrapper 
     echo "Running XLSX converter"
     gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata
+    gridlabd convert -i $OPENFIDO_OUTPUT/${MODEL}_poles.csv -o $OPENFIDO_OUTPUT/${MODEL}_poles.glm -f csv-table -t glm-object module=powerflow 
     # Add loads 
     gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${MODEL}.glm" -o "$OPENFIDO_OUTPUT/${MODEL}.json"
     gridlabd create_childs -i=$OPENFIDO_OUTPUT/${MODEL}.json -o=$OPENFIDO_OUTPUT/${MODEL}_childs.glm -P='class:node,name:^ND_' -C='class:load,nominal_voltage:{nominal_voltage},phases:{phases},constant_power_B:0+0jkVA'
@@ -131,7 +132,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT
 
     # Connect entire network
-    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
 
 fi
 
