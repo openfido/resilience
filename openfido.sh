@@ -100,7 +100,7 @@ if [ $USECASE = "BULK" ]; then
     echo "Running the pole analysis"
     # cd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
     # gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -t anticipation /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
-    gridlabd --verbose --printenv -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
+    gridlabd --verbose --printenv -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm POLES.glm 
     template_file_list=$(ls -l)
     echo "$template_file_list"
     # cp -R "/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/pole_status.csv" "$OPENFIDO_OUTPUT/pole_status.csv"
@@ -132,7 +132,9 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT
 
     # Connect entire network
-    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+
+    # include reliability metrics 
 
 fi
 
