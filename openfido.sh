@@ -132,7 +132,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT
 
     # Connect entire network
-    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
 
     # include reliability metrics 
 
