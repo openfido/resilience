@@ -150,9 +150,9 @@ if [ $USECASE = "INCLUDE_VEGETATION" ]; then
     echo "Adding vegetation."
     gridlabd geodata merge -D vegetation $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv >$OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv
     echo "Adding data for weather."
-    python3 /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py $OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv # this needs to get integrated into the gridlabd source code
+    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py $OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv # this needs to get integrated into the gridlabd source code
     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/${MODEL}_path_result.csv
-    python3 /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py $OPENFIDO_OUTPUT/${MODEL}_path_result.csv $OPENFIDO_OUTPUT/${MODEL}_path_result_plot.csv
+    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py $OPENFIDO_OUTPUT/${MODEL}_path_result.csv $OPENFIDO_OUTPUT/${MODEL}_path_result_plot.csv
     gridlabd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/${MODEL}_folium.html
 fi
 
