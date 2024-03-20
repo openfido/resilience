@@ -132,7 +132,7 @@ if [ $USECASE = "INCLUDE_NETWORK" ]; then
     gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT
 
     # Connect entire network
-    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME -D WIND_SPEED=$WIND_SPEED /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME -D WIND_SPEED=$WIND_SPEED -D FAULT_OUT_PATH=$OPENFIDO_OUTPUT/fault.txt /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
 
     # include reliability metrics 
 
@@ -141,13 +141,18 @@ fi
 
 if [ $USECASE = "INCLUDE_VEGETATION" ]; then 
     echo "Running vegetation analysis."
-    # gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o ./output/$MODEL_NAME.csv -f xlsx-spida -t csv-geodata 
-    # gridlabd python veg_data_preprocess.py
-    gridlabd geodata merge -D elevation $INPUT_POLE_FILE -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
-    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py # this needs to get integrated into the gridlabd source code
-    gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
-    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
-    gridlabd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
+    gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata 
+    echo "Preprocessing vegetation file."
+    gridlabd python veg_data_preprocess.py $OPENFIDO_OUTPUT/${MODEL}_poles.csv $OPENFIDO_OUTPUT/${MODEL}_veg_poles.csv
+    echo "Adding elevation."
+    gridlabd geodata merge -D elevation $OPENFIDO_OUTPUT/${MODEL}_veg_poles.csv -r 30 >$OPENFIDO_OUTPUT/${MODEL}_path_vege.csv
+    echo "Adding vegetation."
+    gridlabd geodata merge -D vegetation $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv >$OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv
+    echo "Adding data for weather."
+    python3 add_info.py $OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv # this needs to get integrated into the gridlabd source code
+    gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/${MODEL}_path_result.csv
+    python3 folium_data.py $OPENFIDO_OUTPUT/${MODEL}_path_result.csv $OPENFIDO_OUTPUT/${MODEL}_path_result_plot.csv
+    gridlabd folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/${MODEL}_folium.html
 fi
 
 
