@@ -140,6 +140,7 @@ fi
 
 
 if [ $USECASE = "INCLUDE_VEGETATION" ]; then 
+    MODEL=$(echo "$INPUT_MODEL_FILE" | cut -d'_' -f1)
     echo "Running vegetation analysis."
     gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata 
     echo "Preprocessing vegetation file."
