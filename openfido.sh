@@ -13,17 +13,26 @@ error()
     exit 1
 }
 
-# configure template 
-gridlabd template config set GITUSER slacgismo
-gridlabd template config set GITREPO gridlabd-template
-gridlabd template config set GITBRANCH develop-add-veg
-gridlabd template get $TEMPLATE
+
 
 trap on_error 1 2 3 4 6 7 8 11 13 14 15
 
 set -x # print commands
 set -e # exit on error
 set -u # nounset enabled
+
+export GLPATH=/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
+
+rm -rf $GLPATH
+
+# configure template 
+gridlabd template config set GITUSER arras-energy
+gridlabd template config set GITREPO gridlabd-template
+gridlabd template config set GITBRANCH develop-utilities
+gridlabd template get $TEMPLATE
+
+file_list=$(ls -l $GLPATH)
+echo "$file_list"
 
 if [ ! -f "/usr/local/bin/gridlabd" ]; then
     echo "ERROR [openfido.sh]: '/usr/local/bin/gridlabd' not found" > /dev/stderr
@@ -55,71 +64,144 @@ cp -R $OPENFIDO_INPUT/* . #WHY?
 
 # process config file
 if [ -e "config.csv" ]; then
-    ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    POLE_DATA=$(grep ^POLE_DATA, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    POLE_NAME=$(grep ^POLE_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    WIND_DIR=$(grep ^WIND_DIR, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
-    POLE_DIV=$(grep ^POLE_DIV, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # ANALYSIS=$(grep ^ANALYSIS, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_POLE_FILE=$(grep ^INPUT_POLE_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # INPUT_VEG_FILE=$(grep ^INPUT_VEG_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_EQUIPMENT_FILE=$(grep ^INPUT_EQUIPMENT_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_MODEL_FILE=$(grep ^INPUT_MODEL_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export INPUT_AMI_FILE=$(grep ^INPUT_AMI_FILE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export STARTTIME=$(grep ^STARTTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export STOPTIME=$(grep ^STOPTIME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export TIMEZONE=$(grep ^TIMEZONE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # MODEL_NAME=$(grep ^MODEL_NAME, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export USECASE=$(grep ^USECASE, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    export WIND_SPEED=$(grep ^WIND_SPEED, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # WIND_SPEED_INC=$(grep ^WIND_SPEED_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # WIND_DIR=$(grep ^WIND_DIR, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # WIND_DIR_INC=$(grep ^WIND_DIR_INC, "config.csv" | cut -f2- -d, | tr ',' ' ')
+    # POLE_DIV=$(grep ^POLE_DIV, "config.csv" | cut -f2- -d, | tr ',' ' ')
     echo "Config settings:"
-    echo "  ANALYSIS = ${ANALYSIS:-pole_analysis}"
-    echo "  POLE_DATA = ${POLE_DATA:-}"
+    echo "  POLE_DATA = ${INPUT_POLE_FILE:-}"
 else
     echo "No 'config.csv', using default settings:"
-    echo "ANALYSIS = 'pole_analysis'"
-    echo "POLE_DATA = "
-    echo "USECASE = "
-    echo "POLE_NAME = "
-    ANALYSIS="pole_analysis"
-    USECASE="all"
-    POLE_NAME=""
+    echo "USECASE = 'BULK'"
+    export USECASE="BULK"
 fi
-if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
-    echo "Running vegetation analysis, only."
-    gridlabd geodata merge -D elevation $OPENFIDO_INPUT/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
-    python3 /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py # this needs to get integrated into the gridlabd source code
-    gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
-    python3 /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
-    gridlabd /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
-elif [ "$ANALYSIS" = "pole_analysis" ]; then 
 
-    if [ "$USECASE" = "--" ]; then
-        echo "ERROR [openfido.sh]: Please set a usecase for pole analysis" > /dev/stderr
-        error
-    fi
+if [ $USECASE = "BULK" ]; then
+    echo "Running bulk pole analysis."
+    # Convert XLSX to CSV + model wrapper 
+    echo "converting XLSX to CSV"
+    gridlabd convert -i "poles:$INPUT_POLE_FILE" -o POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+    # gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/POLES.csv -f xlsx-spida -t csv-geodata include_dummy_network=True include_weather=weather
+
+    echo "converting CSV to GLM"
+    gridlabd convert -i POLES.csv -o POLES.glm -f csv-table -t glm-object module=powerflow 
+    echo "Running the pole analysis"
+    # cd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation
+    # gridlabd --verbose -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE -t anticipation /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/main_bulk.glm POLES.glm 
+    gridlabd --verbose --printenv -D output_message_context=NONE -D starttime=$STARTTIME -D stoptime=$STOPTIME -D timezone=$TIMEZONE /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm POLES.glm 
+    template_file_list=$(ls -l)
+    echo "$template_file_list"
+    # cp -R "/usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/pole_status.csv" "$OPENFIDO_OUTPUT/pole_status.csv"
+    cd -
+fi
+
+
+if [ $USECASE = "INCLUDE_NETWORK" ]; then
+    echo $(gridlabd --version=all)
+    echo "Running analysis with network"
+    MODEL="${INPUT_MODEL_FILE%.glm}"
+    # Convert Model to CSV 
+    gridlabd -C -D csv_save_options='-t pandas:class$,name$,phases$ -f class=overhead_line$\|node$' $OPENFIDO_INPUT/$INPUT_MODEL_FILE -o $OPENFIDO_OUTPUT/${MODEL}_feeder.csv
+    # Convert XLSX to CSV + model wrapper 
+    echo "Running XLSX converter"
+    gridlabd convert -i "poles:$OPENFIDO_INPUT/$INPUT_POLE_FILE,network:$OPENFIDO_OUTPUT/${MODEL}_feeder.csv" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata
+    gridlabd convert -i $OPENFIDO_OUTPUT/${MODEL}_poles.csv -o $OPENFIDO_OUTPUT/${MODEL}_poles.glm -f csv-table -t glm-object module=powerflow 
+    # Add loads 
+    gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${MODEL}.glm" -o "$OPENFIDO_OUTPUT/${MODEL}.json"
+    gridlabd create_childs -i=$OPENFIDO_OUTPUT/${MODEL}.json -o=$OPENFIDO_OUTPUT/${MODEL}_childs.glm -P='class:node,name:^ND_' -C='class:load,nominal_voltage:{nominal_voltage},phases:{phases},constant_power_B:0+0jkVA'
+
+    # Add meters 
+    gridlabd -C -D filesave_options=ALLINITIAL "$OPENFIDO_INPUT/${MODEL}.glm" "$OPENFIDO_OUTPUT/${MODEL}_childs.glm" -o "$OPENFIDO_OUTPUT/${MODEL}_childs.json"
+    gridlabd create_meters "$OPENFIDO_OUTPUT/${MODEL}_childs.json" "$OPENFIDO_OUTPUT/${MODEL}_meters.glm"
+    gridlabd $OPENFIDO_INPUT/$MODEL.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm  -o "$OPENFIDO_OUTPUT/${MODEL}_meters.json"
+
+
+    # Connect AMI
+    gridlabd convert -i "ami:$OPENFIDO_INPUT/${INPUT_AMI_FILE},network:$OPENFIDO_OUTPUT/${MODEL}_meters.json" -o $OPENFIDO_OUTPUT/ami-players.glm -f csv-ami -t glm-player folder_name=$OPENFIDO_OUTPUT
+
+    # Connect entire network
+    gridlabd -D starttime=$STARTTIME -D stoptime=$STOPTIME -D WIND_SPEED=$WIND_SPEED -D FAULT_OUT_PATH=$OPENFIDO_OUTPUT/fault.txt /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/header.glm $OPENFIDO_INPUT/${MODEL}.glm $OPENFIDO_OUTPUT/${MODEL}_poles.glm $OPENFIDO_OUTPUT/${MODEL}_childs.glm $OPENFIDO_OUTPUT/${MODEL}_meters.glm $OPENFIDO_OUTPUT/ami-players.glm
+
+    # include reliability metrics 
+
+fi
+
+
+if [ $USECASE = "INCLUDE_VEGETATION" ]; then 
+    MODEL=$(echo "$INPUT_MODEL_FILE" | cut -d'_' -f1)
+    echo "Running vegetation analysis."
+    gridlabd convert -i "poles:$INPUT_POLE_FILE,equipment:$INPUT_EQUIPMENT_FILE" -o $OPENFIDO_OUTPUT/${MODEL}_poles.csv -f xlsx-spida -t csv-geodata 
+    echo "Preprocessing vegetation file."
+    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/veg_data_preprocess.py $OPENFIDO_OUTPUT/${MODEL}_poles.csv $OPENFIDO_OUTPUT/${MODEL}_veg_poles.csv
+    echo "Adding elevation."
+    gridlabd geodata merge -D elevation $OPENFIDO_OUTPUT/${MODEL}_veg_poles.csv -r 30 >$OPENFIDO_OUTPUT/${MODEL}_path_vege.csv
+    echo "Adding vegetation."
+    gridlabd geodata merge -D vegetation $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv >$OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv
+    echo "Adding data for weather."
+    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py $OPENFIDO_OUTPUT/${MODEL}_path_vege_final.csv # this needs to get integrated into the gridlabd source code
+    gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/${MODEL}_path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/${MODEL}_path_result.csv
+    gridlabd python /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py $OPENFIDO_OUTPUT/${MODEL}_path_result.csv $OPENFIDO_OUTPUT/${MODEL}_path_result_plot.csv
+    gridlabd /usr/local/opt/gridlabd/current/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/${MODEL}_folium.html
+fi
+
+
+# if [ "$ANALYSIS" = "vegetation_analysis" ]; then 
+#     echo "Running vegetation analysis, only."
+#     gridlabd geodata merge -D elevation $OPENFIDO_INPUT/$POLE_DATA -r 30 | gridlabd geodata merge -D vegetation >$OPENFIDO_OUTPUT/path_vege.csv
+#     python3 /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/add_info.py # this needs to get integrated into the gridlabd source code
+#     gridlabd geodata merge -D powerline $OPENFIDO_OUTPUT/path_vege.csv --cable_type="TACSR/AC 610mm^2" >$OPENFIDO_OUTPUT/path_result.csv
+#     python3 /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium_data.py
+#     gridlabd /usr/local/share/gridlabd/template/US/CA/SLAC/anticipation/folium.glm -D html_save_options="--cluster" -o $OPENFIDO_OUTPUT/folium.html
+# elif [ "$ANALYSIS" = "pole_analysis" ]; then 
+
+#     if [ "$USECASE" = "--" ]; then
+#         echo "ERROR [openfido.sh]: Please set a usecase for pole analysis" > /dev/stderr
+#         error
+#     fi
     
-    CSV_NAME="poles_w_equip_and_network"
-    GLM_NAME="network"
-    USECASES=("loading_scenario" "critical_speed" "worst_angle")
-    RESULT_NAME="results"
-    POLE_OPTION=""
-    if [[ -n "$POLE_NAME" ]]; then
-        POLE_OPTION="--poles_selected=pole_$POLE_NAME"
-        POLE_NAME="$POLE_NAME\_"
-    fi
+#     CSV_NAME="poles_w_equip_and_network"
+#     GLM_NAME="network"
+#     USECASES=("loading_scenario" "critical_speed" "worst_angle")
+#     RESULT_NAME="results"
+#     POLE_OPTION=""
+#     if [[ -n "$POLE_NAME" ]]; then
+#         POLE_OPTION="--poles_selected=pole_$POLE_NAME"
+#         POLE_NAME="$POLE_NAME\_"
+#     fi
 
-    echo "Converting SPIDAcalc excel report to CSV"
-    gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
-    echo "Converting CSV to GLM"
-    gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$GLM_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
-    echo "Pole analysis on GLM file"
-    if [[ "$USECASE" = "all" ]]; then
-        for option in "${USECASES[@]}"; do
-        echo "Running $option usecase"
-            gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$option.csv $POLE_OPTION
-        done
-    else
-        gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$USECASE.csv $POLE_OPTION
-    fi
-fi 
+#     echo "Converting SPIDAcalc excel report to CSV"
+#     gridlabd convert $OPENFIDO_INPUT/$POLE_DATA $OPENFIDO_OUTPUT/$CSV_NAME.csv -f xls-spida -t csv-geodata extract_equipment=yes include_network=yes
+#     echo "Converting CSV to GLM"
+#     gridlabd -D csv_load_options="-f table -t object -M powerflow -o $OPENFIDO_OUTPUT/$GLM_NAME.glm" $OPENFIDO_OUTPUT/$CSV_NAME.csv
+#     echo "Pole analysis on GLM file"
+#     if [[ "$USECASE" = "all" ]]; then
+#         for option in "${USECASES[@]}"; do
+#         echo "Running $option usecase"
+#             gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$option --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$option.csv $POLE_OPTION
+#         done
+#     else
+#         gridlabd pole_analysis $OPENFIDO_OUTPUT/$GLM_NAME.glm --analysis=$USECASE --wind_speed=$WIND_SPEED --wind_direction=$WIND_DIR --direction_increment=$WIND_DIR_INC --speed_increment=$WIND_SPEED_INC --segment=$POLE_DIV --output=$OPENFIDO_OUTPUT/$RESULT_NAME\_$POLE_NAME$USECASE.csv $POLE_OPTION
+#     fi
+# fi 
 
 # ( gridlabd template $TEMPLATE_CFG get $TEMPLATE && gridlabd --redirect all $OPTIONS -t $TEMPLATE  ) || error
 
 echo '*** OUTPUTS ***'
-ls -l $OPENFIDO_OUTPUT
+output_list=$(ls -l $OPENFIDO_OUTPUT)
+echo "$output_list"
+
 
 echo '*** RUN COMPLETE ***'
 echo 'See Data Visualization and Artifacts for results.'

@@ -1,7 +1,7 @@
 {
   "name": "GRIP",
   "description": "Resilience analysis",
-  "docker": "lfenergy/arras:latest",
+  "docker": "lfenergy/arras:develop",
   "git": "https://github.com/openfido/resilience.git",
   "branch": "main",
   "script": "openfido.sh",
@@ -9,61 +9,61 @@
     "config": "csv"
   },
   "config": {
-    "ANALYSIS": {
+     "USECASE": {
+      "prompt": "USECASE",
       "description": "Type of analysis to conduct",
-      "choices": "pole_analysis, vegetation_analysis, switch_reconfiguration",
-      "default": "pole_analysis",
+      "choices": "BULK, INCLUDE_NETWORK, INCLUDE_VEGETATION",
+      "default": "BULK",
       "input_type": "enum"
     },
-    "POLE_DATA": {
-      "prompt": "Include pole data (csv/xls)",
-      "description": "Pole data, csv/xls",
+    "INPUT_POLE_FILE": {
+      "prompt": "Include pole data (csv/xlxs)",
+      "description": "Pole data, csv/xlxs",
+      "default": "",
+      "input_type": "upload"
+    },
+    "INPUT_EQUIPMENT_FILE": {
+      "prompt": "Include equipment data (csv/xlxs) (optional)",
+      "description": "Equipment data, csv/xlxs",
+      "default": "",
+      "input_type": "upload"
+    },
+    "INPUT_MODEL_FILE": {
+      "prompt": "Include network data (glm) (optional)",
+      "description": "Feeder network data, glm",
+      "default": "",
+      "input_type": "upload"
+    },
+    "INPUT_AMI_FILE": {
+      "prompt": "Include AMI (csv) (optional)",
+      "description": "AMI load data, csv",
       "default": "",
       "input_type": "upload"
     },
     "Pole Analysis options": { "input_type": "title" },
-    "USECASE": {
-      "prompt": "USECASE",
-      "description": "Type of analysis to conduct",
-      "choices": "loading_scenario, critical_speed, worst_angle, all, --",
-      "default": "--",
-      "input_type": "enum"
+    "STARTTIME": {
+      "description": "Start of the simulation",
+      "prompt": "Start Time",
+      "default": "2020-01-01T00:00:00",
+      "input_type": "str"
     },
-    "POLE_NAME": {
-      "description": "Name of single pole to be analyzed",
-      "prompt": "(optional) Pole Name",
-      "default": "",
+    "STOPTIME": {
+      "description": "End of the simulation",
+      "prompt": "Stop Time",
+      "default": "2020-01-02T00:00:00",
+      "input_type": "str"
+    },
+    "TIMEZONE": {
+      "description": "Timezone of the simulation",
+      "prompt": "Timezone",
+      "default": "PST+8PDT",
       "input_type": "str"
     },
     "WIND_SPEED": {
-      "description": "Wind speed to be used during analysis",
-      "prompt": "(optional) Wind Speed (default 8.8233 m/s)",
-      "default": "8.8233",
-      "input_type": "str"
-    },
-    "WIND_SPEED_INC": {
-      "description": "Wind speed increment to be used during analysis",
-      "prompt": "(optional) Wind Speed Increment (default 5.0 m/s)",
-      "default": "5.0",
-      "input_type": "str"
-    },
-    "WIND_DIR": {
-      "description": "Direction of wind to be used during analysis",
-      "prompt": "(optional) Wind Direction (default 0.0 deg)",
-      "default": "0.0",
-      "input_type": "str"
-    },
-    "WIND_DIR_INC": {
-      "description": "Wind direction increment to be used during analysis",
-      "prompt": "(optional) Wind Direction Increment (default 10.0 deg)",
-      "default": "10.0",
-      "input_type": "str"
-    },
-    "POLE_DIV": {
-      "description": "Number of divisions from bottom to top of pole to be used during analysis",
-      "prompt": "(optional) Number of division (default 100 divisions)",
-      "default": "100.0",
-      "input_type": "str"
+      "description": "Simulation Wind Speed for all the poles",
+      "prompt": "Wind Speed File (csv)",
+      "default": "",
+      "input_type": "upload"
     }
   }
 }
